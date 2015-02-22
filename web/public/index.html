@@ -23,12 +23,81 @@
     </style>
     <script type="text/javascript">
       function initialize() {
-        var mapOptions = {
-          center: { lat: 39.952363, lng: -75.163609},
-          zoom: 14
-        };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
-            mapOptions);
+        function getMapStyle(){
+          var style;
+          return[
+          {"featureType":"all",
+            "elementType":"labels",
+            "stylers":[
+              {"visibility":"off"}
+            ]},
+          {"featureType":"landscape",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#f9ddc5"}
+            ]},
+          {"featureType":"landscape.man_made",
+            "elementType":"geometry",
+            "stylers":[
+              {"weight":0.9},
+              {"visibility":"off"}
+            ]},
+          {"featureType":"poi.park",
+            "elementType":"geometry.fill",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#83cead"}
+            ]},
+          {"featureType":"road",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#813033"}
+            ]},
+          {"featureType":"road",
+            "elementType":"labels",
+            "stylers":[
+              {"visibility":"off"}
+            ]},
+          {"featureType":"road.local",
+           "elementType":"all",
+            "stylers":[
+             {"color":"#f19f53"}
+          ]},
+          {"featureType":"road.highway",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#fee370"}
+          ]},
+          {"featureType":"road.arterial",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#fee380"}
+            ]},
+          {"featureType":"water",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#7fc8ed"}
+            ]}];
+        }
+
+        var map = new google.maps.Map(
+          document.getElementById('map-canvas'),
+          {
+            center: { lat: 39.952363, lng: -75.163609},
+            zoom: 14,
+            draggable: false,
+            disableDefaultUI: true,
+            keyboardShortcuts: false,
+            maxZoom: 14,
+            minZoom: 14,
+            styles: getMapStyle()
+          }
+        );
       }
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
@@ -38,23 +107,9 @@
 <div id="wrap">
 
  
-<header class="masthead">
-
-  	<!-- Carousel
-    ================================================== -->
-    <div id="myCarousel" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="item active">
+<header class="masthead" style="height:300px">
         <div id="map-canvas"></div>
-        <div class="container">
-        </div>
-        </div>      
-      </div><!-- /.carousel-inner -->
-      <div class="logo">The Firm</div> 
-
-    </div>
-    <!-- /.carousel -->
-  
+      <div class="logo"></div>
 </header>
   
   
