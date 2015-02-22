@@ -120,15 +120,13 @@ sockio.sockets.on("connection", function(socket){
 	console.log("WEB CLIENT CONNECTED");
 	var data = {"plates":[], "spots":[], "streets":[]};
 	db.each("select * from plates", function(err, row){
-		//data.plates.push(row);
 		webSock.emit("plate", {message: row}); 
 	});
 	db.each("select * from spots", function(err, row){
-		//data.spots.push(row);
+		console.log(row);
 		webSock.emit("spot", {message: row});
 	});
 	db.each("select * from streets", function(err, row){
-		//data.streets.push(row);
 		webSock.emit("streets", {message: row});
 	});
 	
@@ -137,15 +135,15 @@ sockio.sockets.on("connection", function(socket){
 	});
 	
 	webSock.on("plateRequest", function(data){
-		var s = db.prepare("select * from plates where plate=?");
-		db.each(data, function(err, row){
-			websock.emit("plateRequest", {message:row});
+		console.log("PLATE DATA", data);
+		db.each("select * from plates where plate="+data.toString(), function(err, row){
+			webSock.emit("plateRequest", {message:row});
 		});
 	});
 
 	webSock.on("Request", function(){
 		db.each("select * from plates", function(err, row){
-			websock.emit("plateRequest", {message:row});
+			webSock.emit("plateRequest", {message:row});
 		});
 	});
 });
