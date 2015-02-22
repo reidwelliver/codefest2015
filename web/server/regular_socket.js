@@ -8,7 +8,15 @@ var server = net.createServer();
 var sql = require('sqlite3');
 var db = new sql.Database(DBNAME);
 
+var dataCount = 0;
+//var newDataEvent = new Event('newData');
+
+var webSock;
 // FUNCTIONS
+function getTime(){
+	return Math.floor(Date.now() / 1000);
+}
+
 function bsGps(pta, ptb, nd){
 	// a, b == ARRAY OF X AND Y COORDS
 	// nd == NUMBER TO DIVIDE BY. ASSUMED NUM OF CARS.
@@ -49,6 +57,8 @@ server.on('connection', function(socket){ // Client connected //
 			sttmnt.run(message[1].toString(), Number(message[2]));
 			sttmnt.finalize();
 			console.log("INSERTED");
+			dataCount++;
+			webSock.emit('welcome', { message: message});
 			break;
 		case "read":
 			db.each("select * from dpa", function(err, row){
@@ -68,12 +78,12 @@ server.on('connection', function(socket){ // Client connected //
 	});
 	
 	socket.on('error', function(error){
-		console.log("ERROR");
+		console.log("ERROR", getTime());
 		console.log(error);
 	});
 	
 	socket.on('end', function(){
-		console.log("Client Disconnected");
+		console.log("Client Disconnected", client, getTime());
 	});
 });
 
@@ -83,13 +93,14 @@ var http = require('http');
 var fs = require('fs');
 var index = fs.readFileSync(__dirname + '/index.html');
 var app = http.createServer(function(req, res){
-	console.log(res, req);
-	res.writeHead(200, {'Content-Type': 'text/html'});
-	res.end(index);
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end(index);
 });
 var sockio = require('socket.io').listen(app);
+
 sockio.sockets.on("connection", function(socket){
-	socket.emit('welcome', { message: 'Welcome!' });
-	console.log("ASD", socket);
+	webSock = socket;
+        console.log("ASD", socket);
 });
 app.listen(IOPORT);
+
