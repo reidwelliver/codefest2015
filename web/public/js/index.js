@@ -38,6 +38,10 @@ $(document).ready(function(){
   socket.on('plate',function(data){
     console.log(data);
   });
+  socket.emit('plateRequest','ABC123');
+  socket.on('plateRequest',function(data){
+    console.log(data);
+  })
 
 
   /* affix the navbar after scroll below header */
