@@ -16,7 +16,10 @@ function initDatabase(db){
 	db.run("CREATE TABLE if not exists plates(id integer not null primary key autoincrement, street_id integer, timestamp integer, plate varchar(255), lat varchar(255), long varchar(255))");
 	db.run("CREATE TABLE if not exists streets(id integer not null primary key autoincrement, start_lat varchar(255), end_lat varchar(255), start_long varchar(255), end_long varchar(255), max_spots int)");
 	db.run("CREATE TABLE if not exists spots(id integer not null primary key autoincrement, timestamp int, lat varchar(255), long varchar(255), street_id int)");
+	db.run("CREATE TABLE if not exists archivePlates(id integer not null primary key autoincrement, street_id integer, timestamp integer, plate varchar(255), lat varchar(255), long varchar(255))");
+	db.run("CREATE TABLE if not exists cards(id integer not null primary key autoincrement, plate varchar(255), cardnum varchar(255), expiration int)");
 }
+
 
 function getTime(){
 	return Math.floor(Date.now() / 1000);
@@ -35,6 +38,11 @@ function bsGps(pta, ptb, nd){
 		
 	}
 	console.log("DELTA : ", delta);
+	for(var i = 0; i < arr.length; i++){
+		var s = db.prepare("insert into spots (timestamp, lat, long) values (?,?,?)");
+		s.run(getTime(), arr[i][0], arr[i][1]);
+		s.finalize();
+	}
 	return arr;
 }
 
@@ -111,26 +119,36 @@ sockio.sockets.on("connection", function(socket){
 	webSock = socket;
 	console.log("WEB CLIENT CONNECTED");
 	var data = {"plates":[], "spots":[], "streets":[]};
-	//data["plates"].push(1);
-	//data["spots"].push(2);
-	//data["streets"].push(3);
 	db.each("select * from plates", function(err, row){
-		data.plates.push(row);
+		//data.plates.push(row);
 		webSock.emit("plate", {message: row}); 
 	});
 	db.each("select * from spots", function(err, row){
-		data.spots.push(row);
+		//data.spots.push(row);
 		webSock.emit("spot", {message: row});
 	});
 	db.each("select * from streets", function(err, row){
-		data.streets.push(row);
+		//data.streets.push(row);
 		webSock.emit("streets", {message: row});
 	});
 	
 	webSock.on("end", function(){
 		console.log("WEBSOCKET DISCONNECTED");
 	});
+	
+	webSock.on("plateRequest", function(data){
+		var s = db.prepare("select * from plates where plate=?");
+		db.each(data, function(err, row){
+			websock.emit("plateRequest", {message:row});
+		});
+	});
 
+	webSock.on("Request", function(){
+		db.each("select * from plates", function(err, row){
+			websock.emit("plateRequest", {message:row});
+		});
+	});
 });
+
 app.listen(IOPORT);
 
