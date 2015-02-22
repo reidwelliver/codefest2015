@@ -45,7 +45,7 @@ function dropTables(db){
 	db.run("drop table spots");
 }
 //
-dropTables(db);
+//dropTables(db);
 initDatabase(db);
 server.listen(SOCKPORT);
 server.on('connection', function(socket){ // Client connected // 
@@ -53,20 +53,26 @@ server.on('connection', function(socket){ // Client connected //
 	socket.on('data', function(data){
 		var message = data.toString().replace("\r\n", "");
 		message = message.split(" ");
-		console.log(message);
+		console.log(message); // Message: insert plateno time longitude latitude
 		switch(message[0]){
 		case "insert":
-			var sttmnt = db.prepare("insert into dpa (plate, time) values (?, ?)");	
-			sttmnt.run(message[1].toString(), Number(message[2]));
+			var sttmnt = db.prepare("insert into plates (plate, timestamp, lat, long) values (?, ?, ?, ?)");	
+			longitude = latitude = undefined;
+			if(message.length > 3){
+				longitude = message[3];
+				latitude = message[4];
+			}
+			sttmnt.run(message[1].toString(), Number(message[2]), longitude, latitude);
 			sttmnt.finalize();
 			console.log("INSERTED");
 			dataCount++;
-			webSock.emit('welcome', { message: JSON.stringify(message)});
+			webSock.emit('plate', { message: JSON.stringify(message)});
+			//webSock.emit('
 			break;
 		case "read":
-			db.each("select * from dpa", function(err, row){
+			db.each("select * from plates", function(err, row){
 				console.log(row);
-			});		
+			});
 			break;
 		case "truncate":
 			dropTable(db);
@@ -104,7 +110,27 @@ var sockio = require('socket.io').listen(app);
 sockio.sockets.on("connection", function(socket){
 	webSock = socket;
 	console.log("WEB CLIENT CONNECTED");
+	//var data = {"plates":[], "spots":[], "streets":[]};
+	//data["plates"].push(1);
+	//data["spots"].push(2);
+	//data["streets"].push(3);
+	db.each("select * from plates", function(err, row){
+		data.plates.push(row);
+		webSock.emit("plate", {message: row}); 
+	});
+	db.each("select * from spots", function(err, row){
+		data.spots.push(row);
+		webSock.emit("spot", {message: row});
+	});
+	db.each("select * from streets", function(err, row){
+		data.streets.push(row);
+		webSock.emit("streets", {message: row});
+	});
 	
+	webSock.on("end", function(){
+		console.log("WEBSOCKET DISCONNECTED");
+	});
+
 });
 app.listen(IOPORT);
 
