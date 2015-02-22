@@ -11,7 +11,7 @@ $(document).ready(function(){
 
     for (var i = data.length - 1; i >= 0; i--) {
       if(verifySpotData(data)){
-        console.log(data);
+        console.log("ffffffff"+data);
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(data.lat,data.lng),
           map: map
