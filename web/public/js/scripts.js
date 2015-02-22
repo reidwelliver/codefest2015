@@ -1,115 +1,129 @@
-$(document).ready(function(){//$('.carousel').carousel({interval:false});
-
-/* affix the navbar after scroll below header */
-$('#nav').affix({
-      offset: {
-        top: $('header').height()-$('#nav').height()
-      }
-});	
-
-/* highlight the top nav as scrolling occurs */
-$('body').scrollspy({ target: '#nav' })
-
-/* smooth scrolling for scroll to top */
-$('.scroll-top').click(function(){
-  $('body,html').animate({scrollTop:0},1000);
-})
-
-/* smooth scrolling for nav sections */
-$('#nav .navbar-nav li>a').click(function(){
-  var link = $(this).attr('href');
-  var posi = $(link).offset().top;
-  $('body,html').animate({scrollTop:posi},700);
-});
-
-
-/* copy loaded thumbnails into carousel */
-/*
-$('.panel .img-responsive').on('load', function() {
-  
-}).each(function(i) {
-  if(this.complete) {
-  	var item = $('<div class="item"></div>');
-    var itemDiv = $(this).parent('a');
-    var title = $(this).parent('a').attr("title");
-    
-    item.attr("title",title);
-  	$(itemDiv.html()).appendTo(item);
-  	item.appendTo('#modalCarousel .carousel-inner'); 
-    if (i==0){ // set first item active
-     item.addClass('active');
-    }
+$(document).ready(function(){
+  var map;
+  function verifySpotData(data){
+    return (data.hasOwnProperty('lat') && data.hasOwnProperty('lon') && data.hasOwnProperty('f'));
   }
-});
-*/
-/* activate the carousel */
-//$('#modalCarousel').carousel({interval:false});
 
-/* change modal title when slide changes */
-//$('#modalCarousel').on('slid.bs.carousel', function () {
-//  $('.modal-title').html($(this).find('.active').attr("title"));
-//})
+  function addSpotsToMap(data){
+    if(!Array.isArray(data)){
+      data = [data];
+    }
 
-/* when clicking a thumbnail */
-/*
-$('.panel-thumbnail>a').click(function(e){
-  
-    e.preventDefault();
-    var idx = $(this).parents('.panel').parent().index();
-  	var id = parseInt(idx);
-  	
-  	$('#myModal').modal('show'); // show the modal
-    $('#modalCarousel').carousel(id); // slide carousel to selected
-  	return false;
-});
-*/
+    for (var i = data.length - 1; i >= 0; i--) {
+      if(verifySpotData(data)){
+        console.log(data);
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(data.lat,data.lng),
+          map: map
+        });
+      }
+    };
+  }
+
+  var socket = io.connect('http://127.0.0.1:4444');
+
+  socket.on('connect', function () { console.log("socket connected"); });
+  socket.on('spot',function(data){
+    addSpotsToMap(data);
+  });
+  socket.on('plate',function(data){
+    console.log(data);
+  });
+  //socket.emit('private message', { user: 'me', msg: 'whazzzup?' });
 
 
-
-
-/* google maps */
-/*
-google.maps.visualRefresh = true;
-
-var map;
-function initialize() {
-	var geocoder = new google.maps.Geocoder();
-	var address = $('#map-input').text();
-	var mapOptions = {
-    	zoom: 15,
-    	mapTypeId: google.maps.MapTypeId.ROADMAP,
-     	scrollwheel: false
-	};
-	map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
-	
-  	if (geocoder) {
-      geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
-          map.setCenter(results[0].geometry.location);
-
-            var infowindow = new google.maps.InfoWindow(
-                {
-                  content: address,
-                  map: map,
-                  position: results[0].geometry.location,
-                });
-
-            var marker = new google.maps.Marker({
-                position: results[0].geometry.location,
-                map: map, 
-                title:address
-            }); 
-
-          } else {
-          	alert("No results found");
-          }
+  /* affix the navbar after scroll below header */
+  $('#nav').affix({
+        offset: {
+          top: $('header').height()-$('#nav').height()
         }
-      });
-	}
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-*/
+  });	
 
+  /* highlight the top nav as scrolling occurs */
+  $('body').scrollspy({ target: '#nav' });
 
+  /* smooth scrolling for nav sections */
+  /*
+  $('#nav .navbar-nav li>a').click(function(){
+    var link = $(this).attr('href');
+    var posi = $(link).offset().top;
+    $('body,html').animate({scrollTop:posi},700);
+  });
+  */
+  
+      function initialize() {
+        function getMapStyle(){
+          return[
+          {"featureType":"all",
+            "elementType":"labels",
+            "stylers":[
+              {"visibility":"off"}
+          ]},
+          {"featureType":"landscape",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#f9ddc5"}
+          ]},
+          {"featureType":"landscape.man_made",
+            "elementType":"geometry",
+            "stylers":[
+              {"weight":0.9},
+              {"visibility":"off"}
+          ]},
+          {"featureType":"poi.park",
+            "elementType":"geometry.fill",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#83cead"}
+          ]},
+          {"featureType":"road",
+            "elementType":"all",
+            "stylers":[
+              {"visibility":"on"},
+              {"color":"#813033"}
+          ]},
+          {"featureType":"road",
+            "elementType":"labels",
+            "stylers":[
+              {"visibility":"off"}
+          ]},
+
+          {"featureType":"road.local",
+           "elementType":"all",
+            "stylers":[
+             {"color":"#f19f53"}
+          ]},
+          {"featureType":"road.highway",
+            "elementType":"all",
+            "stylers":[
+              {"color":"#c65b5b"}
+          ]},
+          {"featureType":"road.arterial",
+            "elementType":"all",
+            "stylers":[
+              {"color":"#c65b5b"}
+          ]},
+          {"featureType":"water",
+            "elementType":"all",
+            "stylers":[
+              {"color":"#7fc8ed"}
+          ]}];
+        }
+
+        map = new google.maps.Map(
+          document.getElementById('map-canvas'),
+          {
+            center: { lat: 39.952363, lng: -75.163609},
+            zoom: 14,
+            draggable: false,
+            disableDefaultUI: true,
+            keyboardShortcuts: false,
+            maxZoom: 14,
+            minZoom: 14,
+            styles: getMapStyle()
+          }
+        );
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
 });
