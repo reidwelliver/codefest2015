@@ -6,11 +6,11 @@ $(document).ready(function(){
     document.getElementById('navbarBlah').innerHTML = "The Drone Parking Authority. Currently Tracking "+count.toString()+" Parking Spaces.";
   }
 
-  function verifySpotData(data){
+  function verifyPointData(data){
     return (data.hasOwnProperty('lat') && data.hasOwnProperty('long'));
   }
 
-  function addSpotsToMap(data){
+  function addPointsToMap(data,color){
     if(!Array.isArray(data)){
       data = [data];
     }
@@ -18,12 +18,13 @@ $(document).ready(function(){
     for (var i = data.length - 1; i >= 0; i--) {
       	data = data[0].message;
         console.log(data);
-	if(verifySpotData(data)){
+	if(verifyPointData(data)){
         count++;
         updateNavbarCount(count);
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(data.lat,data.long),
-          map: map
+          map: map,
+          icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+color
         });
       }
     };
@@ -33,10 +34,10 @@ $(document).ready(function(){
 
   socket.on('connect', function () { console.log("socket connected"); });
   socket.on('spot',function(data){
-    addSpotsToMap(data);
+    addPointsToMap(data,"d37272");
   });
   socket.on('plate',function(data){
-    console.log(data);
+    addPointsToMap(data,"1ec921");
   });
   socket.emit('plateRequest','ABC123');
   socket.on('plateRequest',function(data){
@@ -126,13 +127,11 @@ $(document).ready(function(){
         map = new google.maps.Map(
           document.getElementById('map-canvas'),
           {
-            center: { lat: 39.952363, lng: -75.163609},
-            zoom: 14,
+            center: { lat: 39.953938, lng: -75.188484},
+            zoom: 16,
             draggable: false,
             disableDefaultUI: true,
             keyboardShortcuts: false,
-            maxZoom: 14,
-            minZoom: 14,
             styles: getMapStyle()
           }
         );
