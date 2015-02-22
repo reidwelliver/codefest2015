@@ -1,7 +1,7 @@
 $(document).ready(function(){
   var map;
   function verifySpotData(data){
-    return (data.hasOwnProperty('lat') && data.hasOwnProperty('lon'));
+    return (data.hasOwnProperty('lat') && data.hasOwnProperty('long'));
   }
 
   function addSpotsToMap(data){
@@ -15,7 +15,7 @@ $(document).ready(function(){
 	if(verifySpotData(data)){
         console.log("creating new point, which is pretty cool");
         var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(data.lat,data.lng),
+          position: new google.maps.LatLng(data.lat,data.long),
           map: map
         });
       }
