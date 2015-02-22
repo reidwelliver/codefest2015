@@ -10,7 +10,8 @@ $(document).ready(function(){
     }
 
     for (var i = data.length - 1; i >= 0; i--) {
-      	console.log(data);
+      	data = data[0].message;
+        console.log(data);
 	if(verifySpotData(data)){
         console.log("creating new point, which is pretty cool");
         var marker = new google.maps.Marker({
