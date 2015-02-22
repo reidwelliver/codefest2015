@@ -2,15 +2,17 @@ function [text] = detectText(grayImage)
 %colorImage = imread(inputImage);
 
 text = '';
-showPlots = 0;
+showPlots = 1;
 if showPlots == 0
      imagesc(grayImage); title('Original image')
 end;
 % Detect and extract regions
 %grayImage = rgb2gray(colorImage);
-mserRegions = detectMSERFeatures(grayImage,'RegionAreaRange',[150 2000]);
+mserRegions = detectMSERFeatures(grayImage,'RegionAreaRange',[10 1000]);
 mserRegionsPixels = vertcat(cell2mat(mserRegions.PixelList));  % extract regions
-
+if isempty(mserRegionsPixels)
+    return;
+end;
 % Visualize the MSER regions overlaid on the original image
 if showPlots
     figure; imshow(grayImage); hold on;
