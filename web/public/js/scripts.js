@@ -1,7 +1,7 @@
 $(document).ready(function(){
   var map;
   function verifySpotData(data){
-    return (data.hasOwnProperty('lat') && data.hasOwnProperty('lon') && data.hasOwnProperty('f'));
+    return (data.hasOwnProperty('lat') && data.hasOwnProperty('lon'));
   }
 
   function addSpotsToMap(data){
@@ -10,8 +10,9 @@ $(document).ready(function(){
     }
 
     for (var i = data.length - 1; i >= 0; i--) {
-      if(verifySpotData(data)){
-        console.log("ffffffff"+data);
+      	console.log(data);
+	if(verifySpotData(data)){
+        console.log("creating new point, which is pretty cool");
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(data.lat,data.lng),
           map: map

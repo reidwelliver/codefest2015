@@ -110,7 +110,7 @@ var sockio = require('socket.io').listen(app);
 sockio.sockets.on("connection", function(socket){
 	webSock = socket;
 	console.log("WEB CLIENT CONNECTED");
-	//var data = {"plates":[], "spots":[], "streets":[]};
+	var data = {"plates":[], "spots":[], "streets":[]};
 	//data["plates"].push(1);
 	//data["spots"].push(2);
 	//data["streets"].push(3);
