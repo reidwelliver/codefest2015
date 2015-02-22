@@ -32,11 +32,15 @@
             for (var i = data.length - 1; i >= 0; i--) {
                 data = data[0].message;
                 console.log(data);
-            if(verifyData(data)){
-                //add data here
-                var date = new Date(date.timestamp*1000);
-                $(#copstable).append("<tr><td>"+data.plate+"</td><td>"+date.getHours().toString()+":0"+date.getMinutes().toString()+"</td><td>"+Math.random()>.7?"Yes":"No"+"</td></tr>");
-            }
+                if(verifyData(data)){
+                    //add data here
+                    var date = new Date(date.timestamp*1000);
+                    var hours = date.getHours().toString();
+                    var minutes = date.getMinutes().toString();
+                    var violation = Math.random() > .7 ? "Yes" : "No";
+                    
+                    $(#copstable).append("<tr><td>"+data.plate+"</td><td>"+hours+minutes+"</td><td>"+violation+"</td></tr>")
+                }
             };
           }
 
