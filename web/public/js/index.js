@@ -1,5 +1,11 @@
 $(document).ready(function(){
   var map;
+  var count = 0;
+
+  function updateNavbarCount(count){
+    document.getElementById('navbarText').innerHTML = "The Drone Parking Authority. Currently Tracking "+count.toString()+" Parking Spaces.";
+  }
+
   function verifySpotData(data){
     return (data.hasOwnProperty('lat') && data.hasOwnProperty('long'));
   }
@@ -13,7 +19,8 @@ $(document).ready(function(){
       	data = data[0].message;
         console.log(data);
 	if(verifySpotData(data)){
-        console.log("creating new point, which is pretty cool");
+        count++;
+        updateNavbarCount(count);
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(data.lat,data.long),
           map: map
@@ -31,7 +38,6 @@ $(document).ready(function(){
   socket.on('plate',function(data){
     console.log(data);
   });
-  //socket.emit('private message', { user: 'me', msg: 'whazzzup?' });
 
 
   /* affix the navbar after scroll below header */

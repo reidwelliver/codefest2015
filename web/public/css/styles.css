@@ -25,6 +25,7 @@ html, body, #map-canvas {
   min-height: 35%;
   height: auto !important;
   height: 100%;
+  bottom
 }
 
 /* Set the fixed height of the footer here */
@@ -88,7 +89,7 @@ header {
   /*position: absolute;*/
   background: #333;
   color:#555;
-  height: 45%;
+  height: 47%;
   /*z-index: 100;*/
 
 /*
@@ -178,6 +179,9 @@ h1 {
 
 .panel {
 	border-width:0;
+  width: 200px;
+  border-radius: 0;
+  min-width: 200px;
 }
 
 @media (max-width: 768px) {
@@ -209,12 +213,21 @@ section {
   padding-top:100px;
 }
 
+.panel-body {
+  text-align: center;
+  padding-left: 15px; 
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 0px;
+}
+
 .panel-wrapper {
   padding-top:30px;
-    background-color:#e6e6e6;
+  background-color:#e6e6e6;
 }
 
 .panel .img-responsive {
-	min-height:270px;
-    max-height:270px;
+	min-height:200px;
+  max-height:200px;
+  padding: 10px;
 }
