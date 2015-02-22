@@ -137,8 +137,8 @@ sockio.sockets.on("connection", function(socket){
 	});
 	
 	webSock.on("plateRequest", function(data){
-		var s = db.prepare("select * from plates where plate=?");
-		db.each(data, function(err, row){
+		console.log("PLATE DATA", data);
+		db.each("select * from plates where plate="+data.toString(), function(err, row){
 			websock.emit("plateRequest", {message:row});
 		});
 	});
