@@ -1,6 +1,6 @@
 function [text] = detectText(grayImage)
 %colorImage = imread(inputImage);
-
+if 0
 text = '';
 showPlots = 0;
 if showPlots == 0
@@ -19,12 +19,14 @@ if showPlots
 end
 
 % Convert MSER pixel lists to a binary mask
-mserMask = false(size(grayImage));
-ind = sub2ind(size(mserMask), mserRegionsPixels(:,2), mserRegionsPixels(:,1));
-mserMask(ind) = true;
+% mserMask = false(size(grayImage));
+% ind = sub2ind(size(mserMask), mserRegionsPixels(:,2), mserRegionsPixels(:,1));
+% mserMask(ind) = true;
+% 
+% % Run the edge detector
+% edgeMask = edge(grayImage, 'Canny');
 
-% Run the edge detector
-edgeMask = edge(grayImage, 'Canny');
+merMask
 
 % Find intersection between edges and MSER regions
 edgeAndMSERIntersection = edgeMask & mserMask;
