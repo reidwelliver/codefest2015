@@ -116,10 +116,8 @@ $(document).ready(function(){
         map = new google.maps.Map(
           document.getElementById('map-canvas'),
           {
-            center: { lat: 39.952363, lng: -75.163609},
-            zoom: 14,
-            //draggable: false,
-            //disableDefaultUI: true,
+            center: { lat: 39.953938, lng: -75.188484},
+            zoom: 16,
             keyboardShortcuts: false,
             styles: getMapStyle()
           }
