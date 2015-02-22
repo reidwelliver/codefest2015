@@ -19,11 +19,8 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/socketio.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-          function verifyData(data){
-            return (data.hasOwnProperty('lat') && data.hasOwnProperty('long'));
-          }
-
+        var numVio = 0;
+	$(document).ready(function(){
           function addDataToTable(data,color){
             if(!Array.isArray(data)){
               data = [data];
@@ -32,25 +29,26 @@
             for (var i = data.length - 1; i >= 0; i--) {
                 data = data[0].message;
                 console.log(data);
-                if(verifyData(data)){
-                    //add data here
-                    var date = new Date(date.timestamp*1000);
+                    var date = new Date(data.timestamp*1000);
                     var hours = date.getHours().toString();
                     var minutes = date.getMinutes().toString();
                     var violation = Math.random() > .7 ? "Yes" : "No";
-                    
-                    $(#copstable).append("<tr><td>"+data.plate+"</td><td>"+hours+minutes+"</td><td>"+violation+"</td></tr>")
-                }
-            };
+                    if(violation === true){
+			numVio++;
+		    	document.getElementById('numVio').innerHTML = numVio.toString();
+		    };
+		    var htmlString = "<tr><td>"+data.plate+"</td><td>"+hours+minutes+"</td><td>"+violation+"</td></tr>";
+                    $('#copstable').append(htmlString);
+		};
           }
 
           var socket = io.connect('http://127.0.0.1:4444');
 
-          socket.on('connect', function () { console.log("socket connected"); });
+          socket.on('connect', function () { console.log("farts") });
           socket.on('plate',function(data){
-
+		addDataToTable(data);
           });
-
+	});
     </script>
 
     <!-- Custom styles for this template -->
@@ -99,11 +97,11 @@
                         <table style="width:100%; text-align:center;">
                             <tr>
                                 <td><h4 class="shorter">Violations Detected</h4></td>
-                                <td><h4 class="shorter">Payment Amount</h4></td>
+                                <td><h4 class="shorter">Officer ID</h4></td>
                             </tr>
                             <tr>
-                                <td><h4 class="shorter" id="timeLeft">1h 30m</h4></td>
-                                <td id="payAmount"><h4 class="shorter">$4.50</h4></td>
+                                <td><h4 class="shorter" id="numVio">2</h4></td>
+                                <td id="payAmount"><h4 class="shorter">56432</h4></td>
                         </table>
                     </a>
                     <a href="map.html" class="list-group-item">
