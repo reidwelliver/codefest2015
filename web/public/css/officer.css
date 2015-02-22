@@ -232,7 +232,7 @@ fieldset[disabled] .btn-primary.active {
 
 section.slider{
     color: #ffffff;
-    background: #52AD81;
+    background: #308cc1;
     margin: 0px;
     padding: 0px;
 }
@@ -390,8 +390,8 @@ section.about .dmask{
 }
 
 a.list-group-item.active {
-    background-color: #389968;
-    border-color: #389968;
+    background-color: #6ab0f2;
+    border-color: #6ab0f2;
 }
 a.list-group-item .list-group-item-heading{
     margin-bottom: 10px;

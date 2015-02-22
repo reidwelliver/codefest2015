@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" style="height:100%">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <title>DPA - Officer Console</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/socketio.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+          function verifyData(data){
+            return (data.hasOwnProperty('lat') && data.hasOwnProperty('long'));
+          }
+
+          function addDataToTable(data,color){
+            if(!Array.isArray(data)){
+              data = [data];
+            }
+
+            for (var i = data.length - 1; i >= 0; i--) {
+                data = data[0].message;
+                console.log(data);
+            if(verifyData(data)){
+                //add data here
+                var date = new Date(date.timestamp*1000);
+                $(#copstable).append("<tr><td>"+data.plate+"</td><td>"+date.getHours().toString()+":0"+date.getMinutes().toString()+"</td><td>"+Math.random()>.7?"Yes":"No"+"</td></tr>");
+            }
+            };
+          }
+
+          var socket = io.connect('http://127.0.0.1:4444');
+
+          socket.on('connect', function () { console.log("socket connected"); });
+          socket.on('plate',function(data){
+
+          });
+
+    </script>
+
+    <!-- Custom styles for this template -->
+    <link href="css/officer.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="bootstrap/js/html5shiv.js"></script>
+    <script src="bootstrap/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target="#topnav" bgcolor="308cc1" style="height:100%">
+
+
+<section class="slider" id="features" style="height:100%">
+    <div class="container">
+        <div class="inner-page">
+            <h2 class="page-headline large text-center">Drone Parking Authority - Officer Console</h2>
+        </div>
+        <div class="row inner-page">
+            <div class="col-md-8 col-md-push-4 lazy-container loaded">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                        <table data-toggle="table" data-height="299" class="table" id="copstable">
+                            <thead>
+                            <tr>
+                                <th data-field="platenum">Plate Number</th>
+                                <th data-field="timeparked">Time Parked</th>
+                                <th data-field="violation">Possible Violation?</th>
+                            </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-md-pull-8">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        <table style="width:100%; text-align:center;">
+                            <tr>
+                                <td><h4 class="shorter">Violations Detected</h4></td>
+                                <td><h4 class="shorter">Payment Amount</h4></td>
+                            </tr>
+                            <tr>
+                                <td><h4 class="shorter" id="timeLeft">1h 30m</h4></td>
+                                <td id="payAmount"><h4 class="shorter">$4.50</h4></td>
+                        </table>
+                    </a>
+                    <a href="map.html" class="list-group-item">
+                        <img src="img/map30.png" class="img-responsive" style="padding-left: 30px">
+                        <p class="shorter" style="padding-left: 75px">Map Out Violators</p>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100%">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +7,30 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="images/favicon.png">
 
-    <title>Virtual Kiosk</title>
+    <title>DPA - Virtual Kiosk</title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        var hours = 1;
+        var minutes = 30;
+        window.setInterval(function(){
+            if(minutes > 0){
+                minutes--;
+            }
+            else if(hours > 0){
+                minutes = 60;
+                hours--;
+            }
+            document.getElementById('timeLeft').innerHTML = hours.toString()+"h "+minutes.toString()+"m";
+        },60000);
+    </script>
 
     <!-- Custom styles for this template -->
     <link href="css/kiosk.css" rel="stylesheet">
@@ -23,10 +42,10 @@
     <![endif]-->
 </head>
 
-<body data-spy="scroll" data-target="#topnav">
+<body data-spy="scroll" data-target="#topnav" bgcolor="#52AD81" style="height:100%">
 
 
-<section class="slider" id="features">
+<section class="slider" id="features" style="height:100%">
     <div class="container">
         <div class="inner-page">
             <h2 class="page-headline large text-center">Drone Parking Authority's Web Parking Kiosk</h2>
@@ -34,66 +53,73 @@
         <div class="row inner-page">
             <div class="col-md-8 col-md-push-4 lazy-container loaded">
                 <!--<img data-original="images/mockup.png" src="images/mockup.png" alt="Looks great on every device"-->
-                <!--class="lazy">-->
+                <!--class="lazy">--> 
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="feature-box">
+                            <div class="feature-box-icon">
+                                <i class="icon-group"></i>
+                            </div>
+                            <div class="feature-box-info">
+                                <h4 class="shorter" id="customerName">Scott Lerner</h4>
+
+                                <p class="tall">Customer Name</p>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-box-icon">
+                                <i class="icon-file"></i>
+                            </div>
+                            <div class="feature-box-info">
+                                <h4 class="shorter" id="creditCard">5550-0505-5550-0005</h4>
+
+                                <p class="tall">Credit Card</p>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-box-icon">
+                                <i class="icon-film"></i>
+                            </div>
+                            <div class="feature-box-info">
+                                <h4 class="shorter" id="registeredVehicle">Pink 2000 Mazda Miata</h4>
+
+                                <p class="tall">Registered Vehicle</p>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-box-icon">
+                                <i class="icon-magic small user"></i>
+                            </div>
+                            <div class="feature-box-info">
+                                <h4 class="shorter" id="ticketBalance">$36.00</h4>
+
+                                <p class="tall">Outstanding Ticket Balance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
 
             <div class="col-md-4 col-md-pull-8">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
+                        <table style="width:100%; text-align:center;">
+                            <tr>
+                                <td><h4 class="shorter">Time Left</h4></td>
+                                <td><h4 class="shorter">Payment Amount</h4></td>
+                            </tr>
+                            <tr>
+                                <td><h4 class="shorter" id="timeLeft">1h 30m</h4></td>
+                                <td id="payAmount"><h4 class="shorter">$4.50</h4></td>
+                        </table>
                     </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
+                    <a href="map.html" class="list-group-item">
+                        <img src="img/map30.png" class="img-responsive" style="padding-left: 30px">
+                        <p class="shorter" style="padding-left: 60px">Locate Your Vehicle On A Map</p>
                     </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-
-                </div>
-
-
-            </div>
-             <div class="col-md-4 col-md-pull-8">
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">List group item heading</h4>
-
-                        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                            tellus ac cursus commodo, tortor </p>
-                    </a>
-
                 </div>
 
 
@@ -101,12 +127,5 @@
         </div>
     </div>
 </section>
-
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
