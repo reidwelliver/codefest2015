@@ -3,7 +3,7 @@ $(document).ready(function(){
   var count = 0;
 
   function updateNavbarCount(count){
-    document.getElementById('navbarText').innerHTML = "The Drone Parking Authority. Currently Tracking "+count.toString()+" Parking Spaces.";
+    document.getElementById('navbarBlah').innerHTML = "The Drone Parking Authority. Currently Tracking "+count.toString()+" Parking Spaces.";
   }
 
   function verifySpotData(data){
